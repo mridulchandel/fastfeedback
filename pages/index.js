@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Image from 'next/image';
 
 import { useAuth } from '../lib/auth';
 import styles from '../styles/Home.module.css';
@@ -7,18 +8,15 @@ export default function Home() {
   const auth = useAuth();
 
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Fast Feedback</title>
       </Head>
+      <main>
+        <h1>Fast Feedback</h1>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>Fast Feedback Project</h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
+        <p>
+          Get started by editing <code>pages/index.js</code>
         </p>
         {auth?.user ? (
           <button onClick={() => auth.signout()}>Sign Out</button>
@@ -26,18 +24,17 @@ export default function Home() {
           <button onClick={() => auth.signinWithGithub()}>Sign In</button>
         )}
         <div>{auth?.user?.email}</div>
+        {auth?.user?.photoURL && (
+          <div className={styles.profile_container}>
+            <Image
+              src={auth?.user?.photoURL}
+              alt="Profile"
+              width={500}
+              height={500}
+            />
+          </div>
+        )}
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
     </div>
   );
 }
